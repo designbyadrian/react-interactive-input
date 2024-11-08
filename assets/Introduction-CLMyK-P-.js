@@ -1,10 +1,10 @@
-import{j as e}from"./jsx-runtime-j_jdvEMj.js";import{useMDXComponents as r}from"./index-BSj771as.js";import{ae as a}from"./index-DHx1fy7g.js";import"./MaskedInput-Csx7HFmL.js";import"./index-B-o1Wr-g.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./iframe-BNKdL_I4.js";import"../sb-preview/runtime.js";import"./index-BR-9AtOK.js";import"./index-D-8MO0q_.js";import"./index-CJyPbrN5.js";import"./index-DrFu-skq.js";function i(t){const n={code:"code",h1:"h1",h2:"h2",h3:"h3",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...r(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(a,{title:"Introduction"}),`
+import{j as e}from"./jsx-runtime-j_jdvEMj.js";import{useMDXComponents as r}from"./index-BSj771as.js";import{ae as a}from"./index-Zk3QliY4.js";import"./MaskedInput-Dlc2MAn_.js";import"./index-B-o1Wr-g.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./iframe-BMDsClsJ.js";import"../sb-preview/runtime.js";import"./index-BR-9AtOK.js";import"./index-D-8MO0q_.js";import"./index-CJyPbrN5.js";import"./index-DrFu-skq.js";function i(t){const n={code:"code",h1:"h1",h2:"h2",h3:"h3",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...r(),...t.components};return e.jsxs(e.Fragment,{children:[e.jsx(a,{title:"Introduction"}),`
 `,e.jsx(n.h1,{id:"react-interactive-input-",children:"React Interactive Input 👈"}),`
 `,e.jsxs(n.p,{children:["In Blender and similar 3D applications, users can adjust values in numeric input boxes by clicking and dragging horizontally, often referred to as ",e.jsx(n.strong,{children:"scrubbing."})]}),`
 `,e.jsx(n.p,{children:"The user typically clicks and holds the mouse over the number, then drags left or right to decrease or increase the value smoothly. This provides quick, precise control over numeric adjustments without needing to type manually or rely on up/down arrows."}),`
 `,e.jsx(n.p,{children:"This component is a React implementation of that behavior, with a few additional features and customizations."}),`
 `,e.jsx(n.h3,{id:"usage",children:"Usage"}),`
-`,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-jsx",children:`import InteractiveInput from 'react-interactive-input';
+`,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-jsx",children:`import { InteractiveInput } from 'react-interactive-input';
 
 function MyComponent() {
   return (
