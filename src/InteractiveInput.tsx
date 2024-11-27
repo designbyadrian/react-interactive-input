@@ -70,14 +70,14 @@ export default function InteractiveInput({
 
         let newValue: number = startValue.current + delta;
 
-        if (props.min) newValue = Math.max(newValue, +props.min);
-        if (props.max) newValue = Math.min(newValue, +props.max);
+        if (props.min !== undefined) newValue = Math.max(newValue, +props.min);
+        if (props.max !== undefined) newValue = Math.min(newValue, +props.max);
         newValue = +newValue.toFixed(decimals);
 
-        if (newValue) {
+        if (newValue !== undefined && !isNaN(newValue)) {
           setInputValue(String(newValue));
         }
-        if (newValue && props.onChange) {
+        if (newValue !== undefined && !isNaN(newValue) && props.onChange) {
           const event = new Event('change', { bubbles: true });
           const newEvent = {
             ...event,
