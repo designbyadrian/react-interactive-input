@@ -15,15 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # Required for npm Trusted Publishing (OIDC)
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
+      # Node 24 ships npm >= 11.5.1, required for OIDC publish.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
+          # Never cache package manager state in release builds.
           cache: npm
 
       - name: Install dependencies
@@ -41,15 +45,21 @@ jobs:
       - name: Test
         run: npm test
 
+      # setup-node writes an empty _authToken placeholder when NODE_AUTH_TOKEN
+      # is unset; that blocks the OIDC flow. Remove it so npm uses Trusted Publishing.
+      - name: Prepare npmrc for OIDC publish
+        run: |
+          for f in "${NPM_CONFIG_USERCONFIG:-}" "$HOME/.npmrc"; do
+            if [ -n "$f" ] && [ -f "$f" ]; then
+              sed -i '/_authToken/d' "$f"
+            fi
+          done
+
       - name: Dry-run publish
         run: npm publish --dry-run
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish to npm
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - uses: softprops/action-gh-release@v2
         with:
@@ -67,7 +77,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies

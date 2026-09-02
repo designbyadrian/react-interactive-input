@@ -144,7 +144,7 @@ git push origin v2.1.0
 
 The tag **must** match `package.json` exactly (`v2.1.0` ↔ `"version": "2.1.0"`). Publishing the same version twice will fail.
 
-Prerequisite: repository secret `NPM_TOKEN` (npm automation/granular token with publish rights for `@designbyadrian/react-interactive-input`). GitHub Pages should use the `gh-pages` branch as its source.
+Prerequisite: configure [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/) for this package with GitHub Actions — user `designbyadrian`, repository `react-interactive-input`, workflow filename `release-package.yml`, allowed action `npm publish`. No `NPM_TOKEN` secret is required. GitHub Pages should use the `gh-pages` branch as its source.
 
 For a local Storybook deploy without releasing, use `npm run deploy-storybook`.
 
