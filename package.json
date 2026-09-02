@@ -1,6 +1,6 @@
 {
   "name": "@designbyadrian/react-interactive-input",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Adjust values in numeric input boxes by clicking and dragging horizontally, just like in Blender and similar 3D applications.",
   "keywords": [
     "react",
