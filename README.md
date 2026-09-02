@@ -1,5 +1,5 @@
 <center>
-  <img src="assets/interactive-input-icon.svg" alt="" height="64" aria-hidden="true" />
+  <img src="assets/interactive-input-banner.svg" alt="" width="100%" aria-hidden="true" />
   <h1>React Interactive Input</h1>
 </center>
 
@@ -50,11 +50,26 @@ function MyComponent() {
 
 The `InteractiveInput` component accepts all properties of the HTMLInputElement element, especially the following attributes:
 
-- `value`: The initial value of the input field.
-- `onChange`: A callback function that receives the new value when it changes.
+- `value`: The controlled numeric value of the input field.
+- `onChange`: A callback function that receives a change event when the value changes.
 - `step`: The amount to increment or decrement the value when scrubbing.
 - `min`: The minimum value allowed.
 - `max`: The maximum value allowed.
+- `modifiers`: Multipliers applied to `step` while a modifier key is held during scrubbing. Defaults to `{ shiftKey: 0.1, altKey: 1, ctrlKey: 1, metaKey: 1 }`.
+
+## Scrubbing behavior
+
+- A **plain click** focuses the field for manual text editing; scrubbing only starts once the pointer moves more than a few pixels horizontally. While the field is focused, dragging selects text as in a regular input.
+- Scrubbing works with mouse, touch and pen (Pointer Events), and keeps working when the pointer leaves the element thanks to pointer capture.
+- Modifier keys are read live from the pointer, so pressing or releasing e.g. <kbd>Shift</kbd> mid-drag changes the scrub speed immediately, without value jumps.
+- Pressing <kbd>Escape</kbd> during a drag cancels it and restores the value from before the drag.
+- After a scrub the field is blurred, so the next click-and-drag scrubs again.
+
+## Change events and controlled usage
+
+All change events delivered to `onChange` — from typing, scrubbing, and arrow-key stepping alike — are **genuine React ChangeEvents**: `event.target` is the real input element and `event.target.value` is always a string in canonical dot-decimal format (a typed `1,5` is delivered as `"1.5"`), mirroring how native number inputs expose a locale-independent DOM value.
+
+In-progress editing states are emitted as-is: an emptied field emits `""` and a lone minus emits `"-"`. Parse with `parseFloat` and decide what to do with `NaN` in your host (typically: keep the previous value). While the field is focused, the component never overwrites the text with values echoed back through the `value` prop, so typing `-10`, `0.5`, or deleting everything and retyping works without artefacts. On blur, the text is normalized (`007` becomes `7`, `1.` becomes `1`, a lone `-` becomes empty) and reconciled with the `value` prop.
 
 ## Components
 
@@ -68,7 +83,7 @@ The main component for interactive input behavior.
 
 A custom input component featuring input masking specifically designed to address limitations with negative numbers in standard HTML input elements. This component ensures that negative values are properly formatted and accepted by the input field, preventing unexpected behavior or errors when handling signed numbers.
 
-You can provide your own masking function to customize the behavior of the input field.
+You can provide your own masking function to customize the behavior of the input field. A mask is a pure function `(rawValue: string, previousValue: string) => string` that returns the text to display — return `previousValue` to reject an edit.
 
 Example:
 

@@ -26,6 +26,8 @@
     "build-storybook": "storybook build",
     "build": "vite build && tsc --project tsconfig.json",
     "build:types": "tsc --emitDeclarationOnly",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "prepublishOnly": "npm run build",
     "deploy-storybook": "npm run build-storybook && touch ./storybook-static/.nojekyll && gh-pages -d storybook-static -t true"
   },
@@ -49,6 +51,9 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@storybook/addon-a11y": "^8.6.9",
     "@storybook/addon-essentials": "^8.6.9",
     "@storybook/addon-interactions": "^8.6.9",
@@ -59,11 +64,17 @@
     "@storybook/react-vite": "^8.6.9",
     "@storybook/test": "^8.6.9",
     "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.23.0",
     "gh-pages": "^6.3.0",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "storybook": "^8.6.9",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "vitest": "^3.0.9"
   },
   "engines": {
     "node": ">=20.0.0"

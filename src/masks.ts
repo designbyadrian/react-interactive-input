@@ -1,20 +1,18 @@
-export type MaskFunction = (rawValue: string) => string;
+export type MaskFunction = (rawValue: string, previousValue: string) => string;
 
-export function createNumberMask() {
-  let lastValidNumber = '';
+/**
+ * Matches complete and in-progress decimal numbers, including intermediate
+ * editing states such as "", "-", "1.", "-0," and ",5". Both "." and "," are
+ * accepted as the decimal separator.
+ */
+const NUMBER_PATTERN = /^-?\d*[.,]?\d*$/;
 
-  return function numberMask(rawValue: string): string {
-    // Create a regular expression to match valid number patterns with the correct decimal separator
-    const regex = /^-?\d*([.,]?)\d*$/;
-    const match = rawValue.match(regex);
-
-    // If the input matches the pattern, update the last valid number and return it
-    if (match) {
-      lastValidNumber = match[0];
-      return lastValidNumber;
-    }
-
-    // If the input does not match the pattern, return the last valid number
-    return lastValidNumber;
-  };
-}
+/**
+ * Pure number mask: returns the raw value when it is a valid (possibly
+ * in-progress) decimal number, otherwise returns the previous valid value.
+ *
+ * Being pure, it holds no internal state, so mask behavior can never leak
+ * between input instances.
+ */
+export const maskNumber: MaskFunction = (rawValue, previousValue) =>
+  NUMBER_PATTERN.test(rawValue) ? rawValue : previousValue;
