@@ -128,6 +128,26 @@ yarn dev
 
 The project will be available at `http://localhost:6006`.
 
+## Releasing
+
+Releases are tag-driven. Pushing a version tag runs the [release workflow](.github/workflows/release-package.yml), which tests, publishes to npm, creates a GitHub Release, and deploys Storybook to [GitHub Pages](https://designbyadrian.github.io/react-interactive-input).
+
+1. Bump the version in `package.json` and commit (e.g. `2.1.0`).
+2. Create and push a matching tag:
+
+```bash
+git tag v2.1.0
+git push origin v2.1.0
+```
+
+3. The workflow validates the tag, runs tests, publishes to npm, creates a GitHub Release, and deploys Storybook.
+
+The tag **must** match `package.json` exactly (`v2.1.0` ↔ `"version": "2.1.0"`). Publishing the same version twice will fail.
+
+Prerequisite: repository secret `NPM_TOKEN` (npm automation/granular token with publish rights for `@designbyadrian/react-interactive-input`). GitHub Pages should use the `gh-pages` branch as its source.
+
+For a local Storybook deploy without releasing, use `npm run deploy-storybook`.
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
