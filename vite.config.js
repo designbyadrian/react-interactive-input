@@ -16,8 +16,14 @@ export default defineConfig({
       fileName: format => `react-interactive-input.${format}.js`,
     },
     rollupOptions: {
-      // Externalize dependencies that shouldn't be bundled
-      external: ['react', 'react-dom'],
+      // Externalize React (including jsx-runtime). Matching only 'react'
+      // still bundles react/jsx-runtime from the build-time React 19
+      // install, which crashes React 18 hosts (recentlyCreatedOwnerStacks).
+      external: id =>
+        id === 'react' ||
+        id === 'react-dom' ||
+        id.startsWith('react/') ||
+        id.startsWith('react-dom/'),
       output: {
         globals: {
           react: 'React',
