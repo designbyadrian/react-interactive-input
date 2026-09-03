@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef, useState } from 'react';
+import { CSSProperties, forwardRef, useEffect, useRef, useState } from 'react';
 
 import MaskedInput from './MaskedInput';
 import {
@@ -55,24 +55,28 @@ interface DragState {
  * modifier keys (read live from each pointer event) and can be cancelled with
  * Escape, restoring the value from before the drag.
  */
-export default function InteractiveInput({
-  value,
-  modifiers = {
-    altKey: 1,
-    ctrlKey: 1,
-    metaKey: 1,
-    shiftKey: 0.1,
-  },
-  style: _style = {},
-  onBlur,
-  onFocus,
-  onKeyDown,
-  onPointerCancel,
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
-  ...props
-}: InteractiveInputProps) {
+const InteractiveInput = forwardRef<HTMLInputElement, InteractiveInputProps>(
+  (
+    {
+      value,
+      modifiers = {
+        altKey: 1,
+        ctrlKey: 1,
+        metaKey: 1,
+        shiftKey: 0.1,
+      },
+      style: _style = {},
+      onBlur,
+      onFocus,
+      onKeyDown,
+      onPointerCancel,
+      onPointerDown,
+      onPointerMove,
+      onPointerUp,
+      ...props
+    },
+    forwardedRef
+  ) => {
   const dragRef = useRef<DragState | null>(null);
   const [editing, setEditing] = useState(false);
   const [scrubbing, setScrubbing] = useState(false);
@@ -247,6 +251,7 @@ export default function InteractiveInput({
   return (
     <MaskedInput
       {...props}
+      ref={forwardedRef}
       defaultValue={props.defaultValue ?? 0}
       style={style}
       value={value !== undefined ? formatNumber(value) : undefined}
@@ -259,4 +264,7 @@ export default function InteractiveInput({
       onPointerUp={handlePointerUp}
     />
   );
-}
+  }
+);
+
+export default InteractiveInput;

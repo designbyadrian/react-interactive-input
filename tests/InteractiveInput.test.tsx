@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useState } from 'react';
+import { createRef, useState } from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import InteractiveInput from '../src/InteractiveInput';
@@ -216,5 +216,11 @@ describe('InteractiveInput manual editing', () => {
     expect(screen.getByLabelText<HTMLInputElement>('scrub-input').value).toBe(
       '0'
     );
+  });
+
+  it('forwards a ref to the underlying input', () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<InteractiveInput ref={ref} aria-label="scrub-input" />);
+    expect(ref.current).toBe(screen.getByLabelText('scrub-input'));
   });
 });
